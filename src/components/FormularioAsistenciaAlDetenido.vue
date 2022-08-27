@@ -63,9 +63,45 @@
       </div>
 
       <div class="form-group">
-        <label for="muestra_adn">
-          Toma muestra ADN:
-          <input type="bool" id="muestra_adn" />
+        Toma muestra ADN:
+        <label for="muestra_adn"
+          >Si
+          <input type="radio" id="muestra_adn" name="muestra_adn" value="si" />
+        </label>
+        <label for="muestra_adn"
+          >No
+          <input type="radio" id="muestra_adn" name="muestra_adn" value="no"
+        /></label>
+      </div>
+
+      <div class="form-group">
+        <label for="dia_asistencia">
+          Día y hora de asistencia:
+          <input type="date" id="dia_asistencia" />
+          <input type="date" id="hora_asistencia" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="centro_detencion"> Centro de detención: </label>
+        <input type="radio" id="centro_detencion" name="centro_detencion" />P.
+        Nacional<label for="centro_detencion"></label>
+        <input type="radio" id="centro_detencion" name="centro_detencion" />P.
+        Foral<label for="centro_detencion"></label>
+        <input type="radio" id="centro_detencion" name="centro_detencion" />P.
+        Municial<label for="centro_detencion"></label>
+        <input
+          type="radio"
+          id="centro_detencion"
+          name="centro_detencion"
+        />Guardia Civil
+        <label for="centro_detencion"></label>
+      </div>
+
+      <div class="form-group">
+        <label for="localidad">
+          Localidad
+          <input type="text" id="localidad" />
         </label>
       </div>
     </form>
