@@ -78,7 +78,7 @@
         <label for="dia_asistencia">
           Día y hora de asistencia:
           <input type="date" id="dia_asistencia" />
-          <input type="date" id="hora_asistencia" />
+          <input type="time" id="hora_asistencia" />
         </label>
       </div>
 
@@ -102,6 +102,91 @@
         <label for="localidad">
           Localidad
           <input type="text" id="localidad" />
+        </label>
+      </div>
+
+      <!-- JUZGADO -->
+      <p>JUZGADO</p>
+
+      <div class="form-group">
+        <label for="juzgado">
+          Juzgado
+          <input type="text" id="juzgado" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="diligencias">
+          Diligencias
+          <input type="text" id="diligencias" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="situacion">
+          Situación en la que queda el investigado
+          <input type="text" id="situacion" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="dia_juzgado">
+          Día y hora de asistencia en el juzgado
+          <input type="date" id="dia_juzgado" />
+          <input type="time" id="hora_juzgado" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="asistencia_declaracion">
+          Asistencia declaración denunciante</label
+        >
+        <input
+          type="radio"
+          id="asistencia_declaracion"
+          name="asistencia_declaracion"
+        />
+        Si
+        <input
+          type="radio"
+          id="asistencia_declaracion"
+          name="asistencia_declaracion"
+        />
+        No
+      </div>
+
+      <div class="form-group">
+        <label for="comparecencia_544">
+          Comparecencia 544 Lecrim
+          <input type="checkbox" id="comparecencia_544" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="comparecencia_505">
+          Comparecencia 505 Lecrim
+          <input type="checkbox" id="comparecencia_505" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="observaciones">
+          Observaciones:
+          <input type="text" id="observaciones" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="gastos_desplazamiento">
+          Gastos de desplazamiento
+          <input type="text" id="gastos_desplazamiento" />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="firma">
+          Firmado
+          <input type="string" id="firma" />
         </label>
       </div>
     </form>
@@ -128,6 +213,18 @@ export default defineComponent({
     dia_asistencia: Date,
     centro_detencion: Boolean,
     localidad: String,
+    // JUZGADO
+    juzgado: String,
+    diligencias: Number,
+    situacion: String,
+    dia_juzgado: Date,
+    hora_juzgado: String,
+    asistencia_declaracion: Boolean,
+    comparecencia_544: Boolean,
+    comparecencia_505: Boolean,
+    observaciones: String,
+    gastos_desplazamiento: String,
+    firma: String,
   },
 });
 </script>
