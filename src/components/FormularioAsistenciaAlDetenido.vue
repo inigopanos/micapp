@@ -282,7 +282,8 @@ export default defineComponent({
     //   console.log('Se ha guardado test.pdf');
     // },
     download() {
-      this.$refs.html2Pdf.generatePdf();
+      // const prueba = this.$refs.html2Pdf as html2Pdf;
+      (this.$refs.html2Pdf as any).generatePdf();
     },
   },
 });
