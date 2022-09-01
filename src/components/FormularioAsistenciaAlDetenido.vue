@@ -189,15 +189,25 @@
           <input type="string" id="firma" />
         </label>
       </div>
+
+      <label for="submit">
+        <input type="submit" v-on:click="download" />
+      </label>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
+
+// eslint-disable-next-line vue/no-unused-components
+import jsPDF from 'jspdf';
 
 export default defineComponent({
-  name: "AsistenciaDetenido",
+  components: {
+    jsPDF,
+  },
+  name: 'AsistenciaDetenido',
   props: {
     name: String,
     nombre: String,
@@ -225,6 +235,15 @@ export default defineComponent({
     observaciones: String,
     gastos_desplazamiento: String,
     firma: String,
+  },
+  methods: {
+    download() {
+      console.log('Se llama a download');
+      let pdfName = 'test';
+      var doc = new jsPDF();
+      doc.save(pdfName + '.pdf');
+      console.log('Se ha guardado test.pdf');
+    },
   },
 });
 </script>
