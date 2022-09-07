@@ -1,8 +1,8 @@
 <template>
   <div id="container">
     <strong>{{ name }}</strong>
-    <section slot="pdf-content">
-      <form v-on:submit.prevent="add()">
+    <section slot="pdf-content" id="element-to-print">
+      <form v-on:submit.prevent="printDownload()">
         <div class="form-group">
           <label for="nombre">
             Letrado/a:
@@ -194,13 +194,12 @@
             <input type="string" id="firma" />
           </label>
         </div>
-
-        <label for="button"
-          >Enviar Formulario
-          <input type="button" v-on:click="printDownload()" />
-        </label>
       </form>
-    </section>
+    </section>  
+    <label for="button"
+        >Enviar Formulario
+        <input type="button" v-on:click="printDownload()" />
+    </label>
   </div>
 </template>
 
@@ -248,20 +247,10 @@ export default defineComponent({
     w: String,
   },
   methods: {
-    // download() {
-    //   console.log('Se llama a download');
-    //   let pdfName = 'test';
-    //   var doc = new jsPDF();
-    //   doc.text('Hola mundo', 10, 10);
-    //   doc.save(pdfName + '.pdf');
-    //   console.log('Se ha guardado test.pdf');
-    // },
-    // download() {
-    //   const prueba = ();
-    // },
+    
     printDownload() {
       console.log('Hola');
-      let element = document.getElementById('container');
+      let element = document.getElementById('element-to-print');
       let opt = {
         margin: 1,
         filename: 'prueba.pdf',
