@@ -18,7 +18,10 @@
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
     "core-js": "^3.6.5",
+    "html2pdf.js": "^0.9.3",
+    "jspdf": "^2.5.1",
     "vue": "^3.2.21",
+    "vue-html2pdf": "^1.8.0",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
@@ -44,5 +47,9 @@
     "ts-jest": "^27.0.7",
     "typescript": "^4.3.5"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
 }
