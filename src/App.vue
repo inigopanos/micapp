@@ -6,13 +6,15 @@
 
 <script lang="ts">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineComponent} from 'vue';
+import Email from '@/components/Email.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
     IonApp,
     IonRouterOutlet,
+    Email,
   },
 });
 </script>
