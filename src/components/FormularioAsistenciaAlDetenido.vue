@@ -265,14 +265,15 @@ export default defineComponent({
       let element = document.getElementById('container');
       let opt = {
         margin: 1,
-        filename: 'prueba.pdf',
+        filename: 'formulario_asistencia_detenido.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       };
       console.log(element);
-      html2pdf(element);
-      FormularioServices.enviarFormulario(element);
+      html2pdf(element, opt);
+      let prueba = 'Hola';
+      FormularioServices.enviarFormulario(prueba);
       console.log('Se ha enviado el pdf');
     },
   },
