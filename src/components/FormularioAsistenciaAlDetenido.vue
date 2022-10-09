@@ -1,6 +1,7 @@
 <template>
   <div>
     <strong>{{ name }}</strong>
+<<<<<<< HEAD
     <section slot="pdf-content">
       <main @submit.prevent="handleSubmit">
         <div id="container">
@@ -10,6 +11,16 @@
               <input type="text" id="nombre" />
             </label>
           </div>
+=======
+    <section slot="pdf-content" id="element-to-print">
+      <form v-on:submit.prevent="printDownload()">
+        <div class="form-group">
+          <label for="nombre">
+            Letrado/a:
+            <input type="text" id="nombre" />
+          </label>
+        </div>
+>>>>>>> ccf73c7bf63990fdaee15836b1554e8f9947f102
 
           <div class="form-group">
             <label for="dia">
@@ -209,9 +220,134 @@
             </label>
           </div>
         </div>
+<<<<<<< HEAD
         <button id="generate" v-on:click="handleSubmit()">Guardar PDF</button>
       </main>
     </section>
+=======
+
+        <div class="form-group">
+          <label for="dia_asistencia">
+            Día y hora de asistencia:
+            <input type="date" id="dia_asistencia" />
+            <input type="time" id="hora_asistencia" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="centro_detencion"> Centro de detención: </label>
+          <input type="radio" id="centro_detencion" name="centro_detencion" />P.
+          Nacional<label for="centro_detencion"></label>
+          <input type="radio" id="centro_detencion" name="centro_detencion" />P.
+          Foral<label for="centro_detencion"></label>
+          <input type="radio" id="centro_detencion" name="centro_detencion" />P.
+          Municial<label for="centro_detencion"></label>
+          <input
+            type="radio"
+            id="centro_detencion"
+            name="centro_detencion"
+          />Guardia Civil
+          <label for="centro_detencion"></label>
+        </div>
+
+        <div class="form-group">
+          <label for="localidad">
+            Localidad
+            <input type="text" id="localidad" />
+          </label>
+        </div>
+
+        <!-- JUZGADO -->
+        <p>JUZGADO</p>
+
+        <div class="form-group">
+          <label for="juzgado">
+            Juzgado
+            <input type="text" id="juzgado" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="diligencias">
+            Diligencias
+            <input type="text" id="diligencias" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="situacion">
+            Situación en la que queda el investigado
+            <input type="text" id="situacion" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="dia_juzgado">
+            Día y hora de asistencia en el juzgado
+            <input type="date" id="dia_juzgado" />
+            <input type="time" id="hora_juzgado" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="asistencia_declaracion">
+            Asistencia declaración denunciante</label
+          >
+          <input
+            type="radio"
+            id="asistencia_declaracion"
+            name="asistencia_declaracion"
+          />
+          Si
+          <input
+            type="radio"
+            id="asistencia_declaracion"
+            name="asistencia_declaracion"
+          />
+          No
+        </div>
+
+        <div class="form-group">
+          <label for="comparecencia_544">
+            Comparecencia 544 Lecrim
+            <input type="checkbox" id="comparecencia_544" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="comparecencia_505">
+            Comparecencia 505 Lecrim
+            <input type="checkbox" id="comparecencia_505" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="observaciones">
+            Observaciones:
+            <input type="text" id="observaciones" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="gastos_desplazamiento">
+            Gastos de desplazamiento
+            <input type="text" id="gastos_desplazamiento" />
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="firma">
+            Firmado
+            <input type="string" id="firma" />
+          </label>
+        </div>
+      </form>
+    </section>  
+    <label for="button"
+        >Enviar Formulario
+        <input type="button" v-on:click="printDownload()" />
+    </label>
+>>>>>>> ccf73c7bf63990fdaee15836b1554e8f9947f102
   </div>
 </template>
 
@@ -262,6 +398,7 @@ export default defineComponent({
   },
 
   methods: {
+<<<<<<< HEAD
     getTimeAndDate() {
       const today = new Date();
       const date =
@@ -281,6 +418,12 @@ export default defineComponent({
       console.log(timestamp);
 
       let element = document.getElementById('container');
+=======
+    
+    printDownload() {
+      console.log('Hola');
+      let element = document.getElementById('element-to-print');
+>>>>>>> ccf73c7bf63990fdaee15836b1554e8f9947f102
       let opt = {
         margin: 1,
         filename: `formulario_asistencia_detenido_${timestamp}`,
