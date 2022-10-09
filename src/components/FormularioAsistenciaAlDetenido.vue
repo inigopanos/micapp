@@ -258,22 +258,42 @@ export default defineComponent({
     gastos_desplazamiento: String,
     firma: String,
     w: String,
+    timestamp: Date,
   },
+
   methods: {
+    getTimeAndDate() {
+      const today = new Date();
+      const date =
+        today.getFullYear() +
+        '-' +
+        (today.getMonth() + 1) +
+        '-' +
+        today.getDate();
+      const time =
+        today.getHours() + '_' + today.getMinutes() + '_' + today.getSeconds();
+      const dateTime = date + '_' + time;
+      return dateTime;
+    },
+
     handleSubmit() {
-      console.log('Hola');
+      let timestamp = this.getTimeAndDate();
+      console.log(timestamp);
+
       let element = document.getElementById('container');
       let opt = {
         margin: 1,
-        filename: 'formulario_asistencia_detenido.pdf',
+        filename: `formulario_asistencia_detenido_${timestamp}`,
+
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       };
       console.log(element);
+
       html2pdf(element, opt);
       let prueba = 'Hola';
-      FormularioServices.enviarFormulario(prueba);
+      FormularioServices.enviarFormulario(opt.filename);
       console.log('Se ha enviado el pdf');
     },
   },
