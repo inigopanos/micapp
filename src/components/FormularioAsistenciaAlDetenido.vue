@@ -26,7 +26,7 @@
             <label for="cuerpo">Guardia Civil</label>
           </div>
 
-          <h3>DETENIDO/INVESTIGADO</h3>
+          <h3>DETENIDO/INVESTIGADO/PROBADO</h3>
 
           <div class="form-group">
             <label for="nombre_detenido">
