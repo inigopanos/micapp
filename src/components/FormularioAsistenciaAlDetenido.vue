@@ -108,7 +108,7 @@
               type="radio"
               id="centro_detencion"
               name="centro_detencion"
-            />P. Municial<label for="centro_detencion"></label>
+            />P. Municipal<label for="centro_detencion"></label>
             <input
               type="radio"
               id="centro_detencion"
