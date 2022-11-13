@@ -292,7 +292,6 @@ export default defineComponent({
       console.log(element);
 
       html2pdf(element, opt);
-      let prueba = 'Hola';
       FormularioServices.enviarFormulario(opt.filename);
       console.log('Se ha enviado el pdf');
     },
