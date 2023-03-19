@@ -5,7 +5,7 @@ let config: CapacitorConfig;
 const baseConfig: CapacitorConfig = {
   appId: 'com.micapp.app',
   appName: 'Micapp',
-  webDir: 'index.html',
+  webDir: 'dist',
   bundledWebRuntime: true
 };
 
