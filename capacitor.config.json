@@ -1,0 +1,7 @@
+{
+    "appId": "com.micapp.app",
+    "appName": "Micapp",
+    "webDir": "dist",
+    "bundledWebRuntime": true
+  }
+  

@@ -392,11 +392,16 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss" >
+ <style scoped lang="scss" > 
+
+form {
+  width: 100%;
+  max-width: 360px;
+}
 
 #container{
-  margin-left: 15rem;
-  margin-right: 15rem;
+  margin-left: 15em;
+  margin-right: 15em;
 }
 
 #titulo{
@@ -422,7 +427,7 @@ export default defineComponent({
   align-self: flex-start;
 
   & input{
-    padding: 0.4rem;
+    padding: 0.4em;
   }
   
 }
