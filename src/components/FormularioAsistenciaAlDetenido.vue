@@ -296,9 +296,10 @@ export default defineComponent({
       FormularioServices.enviarFormulario(opt.filename);
 
       const x = document.getElementById("sent_email");
-      
+
       if (x)
       {
+        
         if (x.style.display === 'none')
         {
           x.style.display = "block";
@@ -316,6 +317,7 @@ export default defineComponent({
 
 <style scoped>
 #sent_email {
+  display: none;
   width: 100%;
   padding: 50px 0;
   text-align: center;
