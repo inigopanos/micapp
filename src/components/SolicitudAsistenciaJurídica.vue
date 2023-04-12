@@ -392,7 +392,7 @@ export default defineComponent({
 });
 </script>
 
- <style scoped lang="scss" > 
+ <!-- <style scoped lang="scss" > 
 
 form {
   width: 100%;
@@ -535,6 +535,15 @@ form {
       // border-top: 0.5px solid black;
     } 
   }
+}
+
+
+</style> -->
+<style scoped>
+
+form {
+  width: 100%;
+  max-width: 360px;
 }
 
 
