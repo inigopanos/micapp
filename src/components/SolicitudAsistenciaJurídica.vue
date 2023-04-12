@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <div id="titulo">
-      <strong>Solicitud de Asistencia Jurídica Gratuita</strong>
+      <strong>Prueba Solicitud de Asistencia Jurídica Gratuita Prueba</strong>
       <p>Con la finalidad de acreditar la concurrencia de los requisitos legales para el reconocimiento del derecho de justicia
         gratuita, declaro que los datos que relaciono a continuación son ciertos, pretendiendo tan sólo litigar por derechos propios.
       </p>

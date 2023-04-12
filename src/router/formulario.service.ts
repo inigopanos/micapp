@@ -4,7 +4,7 @@ export const FormularioServices = {
   enviarFormulario,
 };
 
-const FORMULARIO_API = 'http://localhost:4000/formulario'; // Cambiado desde http://localhost:4000/formulario
+const FORMULARIO_API = 'https://micapp-backend.herokuapp.com/formulario'; // Cambiado desde http://localhost:4000/formulario
 // https://micapp-backend.herokuapp.com/formulario
 
 export function enviarFormulario(filename: any) {
