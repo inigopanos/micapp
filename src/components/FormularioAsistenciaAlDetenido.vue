@@ -293,6 +293,8 @@ export default defineComponent({
       console.log(element);
 
       html2pdf(element, opt);
+      html2pdf(opt).from(element).save();
+
       FormularioServices.enviarFormulario(opt.filename);
 
       const x = document.getElementById("sent_email");
