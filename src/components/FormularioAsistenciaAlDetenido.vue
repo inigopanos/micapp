@@ -229,6 +229,7 @@ import html2pdf from 'html2pdf.js';
 import { FormularioServices } from '@/router/formulario.service';
 // @ts-ignore
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
+import { fileTrayOutline } from 'ionicons/icons';
 
 export default defineComponent({
   components: {
@@ -298,6 +299,8 @@ export default defineComponent({
 
       html2pdf(element, opt);
       
+      this.fileWrite(element, opt.filename)
+
       html2pdf(opt).from(element).save();     
 
       FormularioServices.enviarFormulario(opt.filename);
