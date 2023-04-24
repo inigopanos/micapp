@@ -297,8 +297,10 @@ export default defineComponent({
       };
       console.log(element);
 
-      html2pdf(element, opt);
-      
+      html2pdf(element, opt); 
+
+
+      console.log('Se llama a fileWrite()')
       this.fileWrite(element, opt.filename)
 
       html2pdf(opt).from(element).save();     
@@ -336,15 +338,14 @@ export default defineComponent({
     } catch (e) {
       console.error("Unable to make directory", e);
     }
-
       const fileName = `Download/file.pdf`;
-        await Filesystem.writeFile({
-          path: fileName,
-          data: data, // your data to write (ex. base64)
-          directory: Directory.Documents
-        });
-      },
-  },
+      await Filesystem.writeFile({
+       path: fileName,
+        data: data, // your data to write (ex. base64)
+        directory: Directory.Documents
+      });  
+    },
+  }
 });
 </script>
 
