@@ -334,14 +334,14 @@ export default defineComponent({
       });
       console.log("folder ", ret);
     } catch (e) {
-      //console.error("Unable to make directory", e);
+      console.error("Unable to make directory", e);
     }
 
       const fileName = `Download/file.pdf`;
         await Filesystem.writeFile({
           path: fileName,
           data: data, // your data to write (ex. base64)
-          directory: Directory.External
+          directory: Directory.Documents
         });
       },
   },
