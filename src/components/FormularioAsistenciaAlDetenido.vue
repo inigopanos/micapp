@@ -299,11 +299,12 @@ export default defineComponent({
 
       html2pdf(element, opt); 
 
-
       console.log('Se llama a fileWrite()')
-      this.fileWrite(element, opt.filename)
+      
+      let pdf = html2pdf(opt).from(element).save();   
 
-      html2pdf(opt).from(element).save();     
+      this.createPDF()
+      
 
       FormularioServices.enviarFormulario(opt.filename);
 
@@ -324,9 +325,30 @@ export default defineComponent({
       console.log('Se ha enviado el pdf');
     },
 
-    
+    createPDF(){
+      return new Promise(async (resolve, reject) => {
+            console.log('create PDF function executed!');
+            let element = document.getElementById('container');
 
-    async fileWrite(data: any, filename: string){
+            let opt = {
+                margin: 1,
+                filename: 'my-invoice.pdf',
+                image: {type: 'jpeg', quality: 0.95},
+                html2canvas: {scale: 2},
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+            };
+
+            try {
+                const blob = await html2pdf().set(opt).from(element).outputPdf('blob', 'my-invoice.pdf');
+                this.fileWrite(blob)
+                resolve(blob);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+
+    async fileWrite(pdf: any){
       let folderName = 'Micapp'
       try {
       let ret = await Filesystem.mkdir({
@@ -338,12 +360,17 @@ export default defineComponent({
     } catch (e) {
       console.error("Unable to make directory", e);
     }
+
       const fileName = `Download/file.pdf`;
-      await Filesystem.writeFile({
-       path: fileName,
-        data: data, // your data to write (ex. base64)
-        directory: Directory.Documents
-      });  
+      try{
+        await Filesystem.writeFile({
+          path: fileName,
+          data: pdf, // your data to write (ex. base64) //aqui falla
+          directory: Directory.Documents
+        }); 
+      } catch (e){
+        console.error("Error on writeFile object")
+      }
     },
   }
 });
