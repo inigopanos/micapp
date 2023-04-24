@@ -326,7 +326,7 @@ export default defineComponent({
       try {
       let ret = await Filesystem.mkdir({
         path: folderName,
-        directory: FilesystemDirectory.Documents,
+        directory: Directory.Documents,
         recursive: false,
       });
       console.log("folder ", ret);
