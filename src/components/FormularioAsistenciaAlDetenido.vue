@@ -222,9 +222,13 @@
 import { defineComponent } from 'vue';
 import jsPDF from 'jspdf';
 import { pdfWindowI } from '@/_helpers/InterfaceTypes';
+import Capacitor from '@capacitor/core'
+
 // @ts-ignore
 import html2pdf from 'html2pdf.js';
 import { FormularioServices } from '@/router/formulario.service';
+// @ts-ignore
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 
 export default defineComponent({
   components: {
@@ -293,7 +297,8 @@ export default defineComponent({
       console.log(element);
 
       html2pdf(element, opt);
-      html2pdf(opt).from(element).save();
+      
+      html2pdf(opt).from(element).save();     
 
       FormularioServices.enviarFormulario(opt.filename);
 
@@ -313,6 +318,29 @@ export default defineComponent({
      
       console.log('Se ha enviado el pdf');
     },
+
+    
+
+    async fileWrite(data: any, filename: string){
+      let folderName = 'Micapp'
+      try {
+      let ret = await Filesystem.mkdir({
+        path: folderName,
+        directory: FilesystemDirectory.Documents,
+        recursive: false,
+      });
+      console.log("folder ", ret);
+    } catch (e) {
+      //console.error("Unable to make directory", e);
+    }
+
+      const fileName = `Download/file.pdf`;
+        await Filesystem.writeFile({
+          path: fileName,
+          data: data, // your data to write (ex. base64)
+          directory: Directory.External
+        });
+      },
   },
 });
 </script>
