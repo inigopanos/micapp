@@ -228,8 +228,8 @@ import Capacitor from '@capacitor/core'
 import html2pdf from 'html2pdf.js';
 import { FormularioServices } from '@/router/formulario.service';
 // @ts-ignore
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
-import { fileTrayOutline } from 'ionicons/icons';
+import { Filesystem, Directory, Encoding, WriteFileOptions } from '@capacitor/filesystem'
+import { fileTrayOutline, resizeOutline } from 'ionicons/icons';
 
 export default defineComponent({
   components: {
@@ -339,18 +339,19 @@ export default defineComponent({
             };
 
             try {
-                const blob = await html2pdf().set(opt).from(element).outputPdf('blob', 'my-invoice.pdf');
-                this.fileWrite(blob)
-                resolve(blob);
+                const pdfFile = await html2pdf().set(opt).from(element).outputPdf('pdfFile', 'my-invoice.pdf');
+                this.fileWrite(pdfFile)
+                console.log('Se ha creado el archivo ' + pdfFile)
+                resolve(pdfFile);
             } catch (e) {
                 reject('Error al crear el pdf: ' + e);
             }
         });
     },
 
-    async fileWrite(blob: any){
+    async fileWrite(pdfFile: any){
       let folderName = 'Micapp'
-      console.log('Blob: ', blob)
+      console.log('pdfFile: ', pdfFile)
       try {
       let ret = await Filesystem.mkdir({
         path: folderName,
@@ -365,16 +366,37 @@ export default defineComponent({
     }
 
       const fileName = 'Documents/Micapp/file.pdf';
+      if (window.confirm("¿Quieres crear el archivo?"))
       try{
-        await Filesystem.writeFile({
+        
+        let text = window.prompt("Introduzca texto a escribir")
+        
+        // @ts-ignore
+        const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        });
+
+        async function Test(){
+          const file = pdfFile;
+          console.log(await toBase64(file));
+          return file;
+        }
+
+        let options: WriteFileOptions = {
           path: fileName, 
-          data: blob, // your data to write (ex. base64) //aqui falla
           directory: Directory.Documents,
-          encoding: Encoding.UTF8
-        }); 
-        console.log('Creado objeto pdf')
+          encoding: Encoding.UTF8,
+          recursive: true,
+          data: await Promise.resolve(Test())
+        }
+
+        await Filesystem.writeFile(options);  
+
       } catch (e){
-        console.error("Error on writeFile object")
+        console.error("Error on writeFile object" + e)
       }
     },
   }
