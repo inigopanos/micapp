@@ -364,15 +364,15 @@ export default defineComponent({
       console.error("Unable to make directory", e);
     }
 
-      const fileName = `Download//file.pdf`;
+      const fileName = 'Documents/Micapp/file.pdf';
       try{
         await Filesystem.writeFile({
-          path: fileName,
+          path: fileName, 
           data: blob, // your data to write (ex. base64) //aqui falla
           directory: Directory.Documents,
           encoding: Encoding.UTF8
         }); 
-
+        console.log('Creado objeto pdf')
       } catch (e){
         console.error("Error on writeFile object")
       }
