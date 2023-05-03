@@ -348,26 +348,31 @@ export default defineComponent({
         });
     },
 
-    async fileWrite(pdf: any){
+    async fileWrite(blob: any){
       let folderName = 'Micapp'
+      console.log('Blob: ', blob)
       try {
       let ret = await Filesystem.mkdir({
         path: folderName,
         directory: Directory.Documents,
         recursive: false,
       });
-      console.log("folder ", ret);
+      
+      console.log('ret: ' + ret + '\n')
+      
     } catch (e) {
       console.error("Unable to make directory", e);
     }
 
-      const fileName = `Download/file.pdf`;
+      const fileName = `Download//file.pdf`;
       try{
         await Filesystem.writeFile({
           path: fileName,
-          data: pdf, // your data to write (ex. base64) //aqui falla
-          directory: Directory.Documents
+          data: blob, // your data to write (ex. base64) //aqui falla
+          directory: Directory.Documents,
+          encoding: Encoding.UTF8
         }); 
+
       } catch (e){
         console.error("Error on writeFile object")
       }
