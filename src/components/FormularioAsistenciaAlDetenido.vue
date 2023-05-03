@@ -343,7 +343,7 @@ export default defineComponent({
                 this.fileWrite(blob)
                 resolve(blob);
             } catch (e) {
-                reject(e);
+                reject('Error al crear el pdf: ' + e);
             }
         });
     },
