@@ -303,8 +303,7 @@ export default defineComponent({
       
       let pdf = html2pdf(opt).from(element).save();   
 
-      this.createPDF()
-      
+      this.createPDF();
 
       FormularioServices.enviarFormulario(opt.filename);
 
@@ -337,11 +336,13 @@ export default defineComponent({
                 html2canvas: {scale: 2},
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
             };
-
+            
+            //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
             try {
-                const pdfFile = await html2pdf().set(opt).from(element).outputPdf('pdfFile', 'my-invoice.pdf');
-                this.fileWrite(pdfFile)
-                console.log('Se ha creado el archivo ' + pdfFile)
+                const pdfFile = html2pdf().set(opt).from(element).outputPdf('pdfFile', 'my-invoice.pdf');
+                console.log('Antes de this.fileWrite(pdfFile)');
+                this.fileWrite(pdfFile);
+                console.log('Se ha creado el archivo ' + pdfFile);
                 resolve(pdfFile);
             } catch (e) {
                 reject('Error al crear el pdf: ' + e);
