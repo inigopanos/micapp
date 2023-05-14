@@ -340,10 +340,28 @@ export default defineComponent({
             //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
             try {
                 const pdfFile = html2pdf().set(opt).from(element).toPdf().output('datauristring');
+               
+                // base64 string
+                let base64str = pdfFile;
+
+                // decode base64 string, remove space for IE compatibility
+                var binary = atob(base64str.replace(/\s/g, ''));
+                var len = binary.length;
+                var buffer = new ArrayBuffer(len);
+                var view = new Uint8Array(buffer);
+                for (var i = 0; i < len; i++) {
+                    view[i] = binary.charCodeAt(i);
+                }
+
+                // create the blob object with content-type "application/pdf"               
+                var blob = new Blob( [view], { type: "application/pdf" });
+                var url = URL.createObjectURL(blob);
+
+
                 console.log('Antes de this.fileWrite(pdfFile)');
-                this.fileWrite(pdfFile);
-                console.log('Se ha creado el archivo ' + pdfFile);
-                resolve(pdfFile);
+                this.fileWrite(url);
+                console.log('Se ha creado el archivo ' + url);
+                resolve(url);
             } catch (e) {
                 reject('Error al crear el pdf: ' + e);
             }
