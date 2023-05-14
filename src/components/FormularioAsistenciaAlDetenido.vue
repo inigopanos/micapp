@@ -339,7 +339,7 @@ export default defineComponent({
             
             //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
             try {
-                const pdfFile = html2pdf().set(opt).from(element).outputPdf('pdfFile', 'my-invoice.pdf');
+                const pdfFile = html2pdf().set(opt).from(element).toPdf().output('datauristring');
                 console.log('Antes de this.fileWrite(pdfFile)');
                 this.fileWrite(pdfFile);
                 console.log('Se ha creado el archivo ' + pdfFile);
