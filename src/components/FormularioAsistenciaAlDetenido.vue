@@ -340,7 +340,8 @@ export default defineComponent({
             //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
             try {
                 const pdfFile = html2pdf().set(opt).from(element).toPdf().output('datauristring');
-               
+
+                // https://stackoverflow.com/questions/36036280/base64-representing-pdf-to-blob-javascript
                 // base64 string
                 let base64str = pdfFile;
 
@@ -359,7 +360,7 @@ export default defineComponent({
 
 
                 console.log('Antes de this.fileWrite(pdfFile)');
-                this.fileWrite(url);
+                this.fileWrite(blob);
                 console.log('Se ha creado el archivo ' + url);
                 resolve(url);
             } catch (e) {
@@ -368,7 +369,7 @@ export default defineComponent({
         });
     },
 
-    async fileWrite(pdfFile: any){
+    async fileWrite(pdfFile: Blob){
       let folderName = 'Micapp'
       console.log('pdfFile: ', pdfFile)
       try {
@@ -391,28 +392,28 @@ export default defineComponent({
         let text = window.prompt("Introduzca texto a escribir")
         
         // @ts-ignore
-        const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        });
+        // const toBase64 = file => new Promise((resolve, reject) => {
+        // const reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = () => resolve(reader.result);
+        // reader.onerror = reject;
+        // });
 
-        async function Test(){
-          const file = pdfFile;
-          console.log(await toBase64(file));
-          return file;
-        }
+        // async function Test(){
+        //   const file = pdfFile;
+        //   console.log(await toBase64(file));
+        //   return file;
+        // }
 
-        let options: WriteFileOptions = {
-          path: fileName, 
-          directory: Directory.Documents,
-          encoding: Encoding.UTF8,
-          recursive: true,
-          data: await Promise.resolve(Test())
-        }
+        // let options: WriteFileOptions = {
+        //   path: fileName, 
+        //   directory: Directory.Documents,
+        //   encoding: Encoding.UTF8,
+        //   recursive: true,
+        //   data: await Promise.resolve(Test())
+        // }
 
-        await Filesystem.writeFile(options);  
+        await Filesystem.writeFile(pdfFile);  
 
       } catch (e){
         console.error("Error on writeFile object" + e)
