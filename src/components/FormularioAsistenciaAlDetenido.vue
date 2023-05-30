@@ -306,7 +306,7 @@ export default defineComponent({
 
       //this.createPDF();
 
-      FormularioServices.enviarFormulario(pdf);
+      FormularioServices.enviarFormulario(pdf, opt.filename);
 
       const x = document.getElementById("sent_email");
 
