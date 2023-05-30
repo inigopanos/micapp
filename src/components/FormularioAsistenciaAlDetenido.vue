@@ -221,7 +221,7 @@
 
 import { defineComponent } from 'vue';
 import jsPDF from 'jspdf';
-import {base64StringToBlob} from 'blob-util'
+import {base64StringToBlob, dataURLToBlob} from 'blob-util'
 import { pdfWindowI } from '@/_helpers/InterfaceTypes';
 import Capacitor from '@capacitor/core'
 
@@ -358,8 +358,8 @@ export default defineComponent({
                 console.error('Tipo de base64str: ', {base64str})
                 
                 // Usando npm blob-util
-                const contentType = 'image/pdf';
-                const blob = base64StringToBlob(base64str, contentType);
+                
+                const blob = dataURLToBlob(pdfFileURL);
 
 
                 console.log('Antes de this.fileWrite(pdfFile)');
