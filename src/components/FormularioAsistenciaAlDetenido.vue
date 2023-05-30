@@ -304,9 +304,9 @@ export default defineComponent({
       
       let pdf = html2pdf(opt).from(element).save();   
 
-      this.createPDF();
+      //this.createPDF();
 
-      FormularioServices.enviarFormulario(opt.filename);
+      FormularioServices.enviarFormulario(pdf);
 
       const x = document.getElementById("sent_email");
 
@@ -355,14 +355,16 @@ export default defineComponent({
                 // base64 string
                 let base64str = pdfFile;
                 let type64 = typeof(base64str)
-                console.error('Tipo de base64str: ', {base64str})
+                console.error('Tipo de base64str: ', type64, ' prueba v0.2') // Se llama
                 
+
                 // Usando npm blob-util
-                
-                const blob = dataURLToBlob(pdfFileURL);
+                // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+
+                const blob = await dataURLToBlob(pdfFileURL);
 
 
-                console.log('Antes de this.fileWrite(pdfFile)');
+                console.log('Antes de this.fileWrite(pdfFile) el blob es', blob); // No se
                 this.fileWrite(blob);
                 console.log('Se ha creado el archivo ' + blob);
                 resolve(blob);
