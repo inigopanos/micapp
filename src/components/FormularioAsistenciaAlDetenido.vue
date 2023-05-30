@@ -355,21 +355,8 @@ export default defineComponent({
                 // base64 string
                 let base64str = pdfFile;
                 let type64 = typeof(base64str)
-                console.error('Tipo de base64str: ', base64str)
-
-                // decode base64 string, remove space for IE compatibility
-                // var binary = atob(base64str.replace(/\s/g, ''));
-                // var len = binary.length;
-                // var buffer = new ArrayBuffer(len);
-                // var view = new Uint8Array(buffer);
-                // for (var i = 0; i < len; i++) {
-                //     view[i] = binary.charCodeAt(i);
-                // }
-
-                // // create the blob object with content-type "application/pdf"               
-                // var blob = new Blob( [view], { type: "application/pdf" });
+                console.error('Tipo de base64str: ', {base64str})
                 
-
                 // Usando npm blob-util
                 const contentType = 'image/pdf';
                 const blob = base64StringToBlob(base64str, contentType);
