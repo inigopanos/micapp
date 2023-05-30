@@ -372,8 +372,6 @@ export default defineComponent({
 
                 // Usando npm blob-util
                 const contentType = 'image/pdf';
-                const b64Data = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-
                 const blob = base64StringToBlob(base64str, contentType);
 
 
