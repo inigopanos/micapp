@@ -221,6 +221,7 @@
 
 import { defineComponent } from 'vue';
 import jsPDF from 'jspdf';
+import {base64StringToBlob} from 'blob-util'
 import { pdfWindowI } from '@/_helpers/InterfaceTypes';
 import Capacitor from '@capacitor/core'
 
@@ -340,29 +341,46 @@ export default defineComponent({
             //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
             try {
                 const pdfFile = html2pdf().set(opt).from(element).toPdf().output('datauristring');
+                const pdfFileURL = html2pdf().set(opt).from(element).toPdf().output('dataurlstring');
+
+
+                // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+                // const b64toBlob = (base64: any, type = 'application/octet-stream') => 
+                // fetch(`data:${type};base64,${base64}`).then(res => res.blob())
+                
+                // const blobPdf = b64toBlob(pdfFileURL)
+
 
                 // https://stackoverflow.com/questions/36036280/base64-representing-pdf-to-blob-javascript
                 // base64 string
                 let base64str = pdfFile;
+                let type64 = typeof(base64str)
+                console.error('Tipo de base64str: ', base64str)
 
                 // decode base64 string, remove space for IE compatibility
-                var binary = atob(base64str.replace(/\s/g, ''));
-                var len = binary.length;
-                var buffer = new ArrayBuffer(len);
-                var view = new Uint8Array(buffer);
-                for (var i = 0; i < len; i++) {
-                    view[i] = binary.charCodeAt(i);
-                }
+                // var binary = atob(base64str.replace(/\s/g, ''));
+                // var len = binary.length;
+                // var buffer = new ArrayBuffer(len);
+                // var view = new Uint8Array(buffer);
+                // for (var i = 0; i < len; i++) {
+                //     view[i] = binary.charCodeAt(i);
+                // }
 
-                // create the blob object with content-type "application/pdf"               
-                var blob = new Blob( [view], { type: "application/pdf" });
-                var url = URL.createObjectURL(blob);
+                // // create the blob object with content-type "application/pdf"               
+                // var blob = new Blob( [view], { type: "application/pdf" });
+                
+
+                // Usando npm blob-util
+                const contentType = 'image/pdf';
+                const b64Data = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+
+                const blob = base64StringToBlob(base64str, contentType);
 
 
                 console.log('Antes de this.fileWrite(pdfFile)');
                 this.fileWrite(blob);
-                console.log('Se ha creado el archivo ' + url);
-                resolve(url);
+                console.log('Se ha creado el archivo ' + blob);
+                resolve(blob);
             } catch (e) {
                 reject('Error al crear el pdf: ' + e);
             }
