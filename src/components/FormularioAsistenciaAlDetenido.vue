@@ -312,10 +312,10 @@ export default defineComponent({
       async function generatePDF(element: any, opt: any): Promise<any> {
         try {
           let pdf = await html2pdf(opt).from(element).outputPdf();
-          return pdf;
           console.log('PDF generado exitosamente:', pdf);
+          return pdf;
         } catch (error) {
-          console.error('Error al generar el PDF:', error);
+          console.error('Error al generar el PDF:', error, element, opt);
         }
       }
 
@@ -340,7 +340,7 @@ export default defineComponent({
 
       // ------------------------------------------------------------------------- //
 
-      
+
 
       //this.createPDF();
 
