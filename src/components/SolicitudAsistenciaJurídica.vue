@@ -385,7 +385,7 @@ export default defineComponent({
       console.log(element);
 
       html2pdf(element, opt);
-      FormularioServices.enviarFormulario(opt.filename);
+      // FormularioServices.enviarFormulario(pdf, opt.filename);
       console.log('Se ha enviado el pdf');
     },
   },

@@ -298,20 +298,20 @@ export default defineComponent({
       };
       console.log(element);
 
-      html2pdf(element, opt); 
+      let pdf = html2pdf(element, opt); 
 
       console.log('Se llama a fileWrite()')
       
-      let pdf = html2pdf(opt).from(element).save();  //GUARDA EL PDF? 
+      // let pdf = html2pdf(opt).from(element).save();  //GUARDA EL PDF? 
       
       if (pdf.type !== 'application/pdf')
       {
-        console.log('Tipo de archivo no válido. Debe ser un archivo PDF, y es un archivo tipo', pdf.type);
-      } else {
+        console.log('Tipo de archivo no válido. Debe ser un archivo PDF, y es un archivo tipo', pdf.type); // undefined
+      } 
 
-        FormularioServices.enviarFormulario(pdf, opt.filename); // Se manda el formulario al back 
+      FormularioServices.enviarFormulario(pdf, opt.filename); // Se manda el formulario al back 
 
-      }
+      
 
       // ------------------------------------------------------------------------- //
 
