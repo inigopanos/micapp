@@ -293,6 +293,8 @@ export default defineComponent({
       console.log(timestamp);
 
       let element = document.getElementById('container');
+      console.log('Elemento, ', element);
+
       let opt = {
         margin: 1,
         filename: `formulario_asistencia_detenido_${timestamp}`,
@@ -311,7 +313,7 @@ export default defineComponent({
 
       async function generatePDF(element: any, opt: any): Promise<any> {
         try {
-          let pdf = await html2pdf(opt).from(element).outputPdf();
+          let pdf = await html2pdf(opt).from(element).save().outputPdf();
           console.log('PDF generado exitosamente:', pdf);
           return pdf;
         } catch (error) {
@@ -320,18 +322,16 @@ export default defineComponent({
       }
 
       generatePDF(element, opt).then((pdf) => {
-        if (pdf.type !== 'application/pdf') {
+        if (pdf?.type !== 'application/pdf') {
           console.log(
-            'Tipo de archivo no válido. Debe ser un archivo PDF, y es un archivo tipo',
-            pdf.type
-          ); // undefined
-
-          // Se manda el formulario al back
-          FormularioServices.enviarFormulario(pdf, opt.filename);
+            'Tipo de archivo no válido. Debe ser un archivo PDF. Probablemente sea undefined...'
+          );
 
         } else {
-          console.log('Tipo de archivo válido, es de tipo', pdf.type);
+          console.log('Tipo de archivo válido, es de tipo PDF');        
+          FormularioServices.enviarFormulario(pdf, opt.filename);
         }
+
       });
 
       // let pdf = html2pdf(opt).from(element).save().then();  //GUARDA EL PDF?
@@ -353,8 +353,6 @@ export default defineComponent({
           x.style.display = 'none';
         }
       }
-
-      console.log('Se ha enviado el pdf');
     },
 
     createPDF() {
