@@ -302,17 +302,25 @@ export default defineComponent({
 
       console.log('Se llama a fileWrite()')
       
-      let pdf = html2pdf(opt).from(element).save();   
+      let pdf = html2pdf(opt).from(element).save();  //GUARDA EL PDF? 
+      
+      if (pdf.type !== 'application/pdf')
+      {
+        console.log('Tipo de archivo no válido. Debe ser un archivo PDF, y es un archivo tipo', pdf.type);
+      } else {
+
+        FormularioServices.enviarFormulario(pdf, opt.filename); // Se manda el formulario al back 
+
+      }
+
+      // ------------------------------------------------------------------------- //
 
       //this.createPDF();
-
-      FormularioServices.enviarFormulario(pdf, opt.filename);
 
       const x = document.getElementById("sent_email");
 
       if (x)
       {
-        
         if (x.style.display === 'none')
         {
           x.style.display = "block";
