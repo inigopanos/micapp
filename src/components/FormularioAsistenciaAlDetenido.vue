@@ -221,15 +221,20 @@
 
 import { defineComponent } from 'vue';
 import jsPDF from 'jspdf';
-import {base64StringToBlob, dataURLToBlob} from 'blob-util'
+import { base64StringToBlob, dataURLToBlob } from 'blob-util';
 import { pdfWindowI } from '@/_helpers/InterfaceTypes';
-import Capacitor from '@capacitor/core'
+import Capacitor from '@capacitor/core';
 
 // @ts-ignore
 import html2pdf from 'html2pdf.js';
 import { FormularioServices } from '@/router/formulario.service';
 // @ts-ignore
-import { Filesystem, Directory, Encoding, WriteFileOptions } from '@capacitor/filesystem'
+import {
+  Filesystem,
+  Directory,
+  Encoding,
+  WriteFileOptions,
+} from '@capacitor/filesystem';
 import { fileTrayOutline, resizeOutline } from 'ionicons/icons';
 
 export default defineComponent({
@@ -298,141 +303,161 @@ export default defineComponent({
       };
       console.log(element);
 
-      let pdf = html2pdf(element, opt); 
+      // let pdf = html2pdf(element, opt);
 
-      console.log('Se llama a fileWrite()')
-      
-      // let pdf = html2pdf(opt).from(element).save();  //GUARDA EL PDF? 
-      
-      if (pdf.type !== 'application/pdf')
-      {
-        console.log('Tipo de archivo no válido. Debe ser un archivo PDF, y es un archivo tipo', pdf.type); // undefined
-      } 
+      console.log('Se llama a fileWrite()');
 
-      FormularioServices.enviarFormulario(pdf, opt.filename); // Se manda el formulario al back 
+      // función asíncrona para trabajar con Promesas
 
-      
+      async function generatePDF(element: any, opt: any): Promise<any> {
+        try {
+          let pdf = await html2pdf(opt).from(element).outputPdf();
+          return pdf;
+          console.log('PDF generado exitosamente:', pdf);
+        } catch (error) {
+          console.error('Error al generar el PDF:', error);
+        }
+      }
+
+      generatePDF(element, opt).then((pdf) => {
+        if (pdf.type !== 'application/pdf') {
+          console.log(
+            'Tipo de archivo no válido. Debe ser un archivo PDF, y es un archivo tipo',
+            pdf.type
+          ); // undefined
+
+          // Se manda el formulario al back
+          FormularioServices.enviarFormulario(pdf, opt.filename);
+
+        } else {
+          console.log('Tipo de archivo válido, es de tipo', pdf.type);
+        }
+      });
+
+      // let pdf = html2pdf(opt).from(element).save().then();  //GUARDA EL PDF?
+
+       
 
       // ------------------------------------------------------------------------- //
 
+      
+
       //this.createPDF();
 
-      const x = document.getElementById("sent_email");
+      const x = document.getElementById('sent_email');
 
-      if (x)
-      {
-        if (x.style.display === 'none')
-        {
-          x.style.display = "block";
-        }
-        else{
-          x.style.display = "none";
+      if (x) {
+        if (x.style.display === 'none') {
+          x.style.display = 'block';
+        } else {
+          x.style.display = 'none';
         }
       }
-     
+
       console.log('Se ha enviado el pdf');
     },
 
-    createPDF(){
+    createPDF() {
       return new Promise(async (resolve, reject) => {
-            console.log('create PDF function executed!');
-            let element = document.getElementById('container');
+        console.log('create PDF function executed!');
+        let element = document.getElementById('container');
 
-            let opt = {
-                margin: 1,
-                filename: 'my-invoice.pdf',
-                image: {type: 'jpeg', quality: 0.95},
-                html2canvas: {scale: 2},
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-            };
-            
-            //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
-            try {
-                const pdfFile = html2pdf().set(opt).from(element).toPdf().output('datauristring');
-                const pdfFileURL = html2pdf().set(opt).from(element).toPdf().output('dataurlstring');
+        let opt = {
+          margin: 1,
+          filename: 'my-invoice.pdf',
+          image: { type: 'jpeg', quality: 0.95 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        };
 
+        //Output type "pdfFile" is not supported. Error: Output type "pdfFile" is not supported.
+        try {
+          const pdfFile = html2pdf()
+            .set(opt)
+            .from(element)
+            .toPdf()
+            .output('datauristring');
+          const pdfFileURL = html2pdf()
+            .set(opt)
+            .from(element)
+            .toPdf()
+            .output('dataurlstring');
 
-                // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
-                // const b64toBlob = (base64: any, type = 'application/octet-stream') => 
-                // fetch(`data:${type};base64,${base64}`).then(res => res.blob())
-                
-                // const blobPdf = b64toBlob(pdfFileURL)
+          // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+          // const b64toBlob = (base64: any, type = 'application/octet-stream') =>
+          // fetch(`data:${type};base64,${base64}`).then(res => res.blob())
 
+          // const blobPdf = b64toBlob(pdfFileURL)
 
-                // https://stackoverflow.com/questions/36036280/base64-representing-pdf-to-blob-javascript
-                // base64 string
-                let base64str = pdfFile;
-                let type64 = typeof(base64str)
-                console.error('Tipo de base64str: ', type64, ' prueba v0.2') // Se llama
-                
+          // https://stackoverflow.com/questions/36036280/base64-representing-pdf-to-blob-javascript
+          // base64 string
+          let base64str = pdfFile;
+          let type64 = typeof base64str;
+          console.error('Tipo de base64str: ', type64, ' prueba v0.2'); // Se llama
 
-                // Usando npm blob-util
-                // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+          // Usando npm blob-util
+          // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
 
-                const blob = await dataURLToBlob(pdfFileURL);
+          const blob = await dataURLToBlob(pdfFileURL);
 
-
-                console.log('Antes de this.fileWrite(pdfFile) el blob es', blob); // No se
-                this.fileWrite(blob);
-                console.log('Se ha creado el archivo ' + blob);
-                resolve(blob);
-            } catch (e) {
-                reject('Error al crear el pdf: ' + e);
-            }
-        });
+          console.log('Antes de this.fileWrite(pdfFile) el blob es', blob); // No se
+          this.fileWrite(blob);
+          console.log('Se ha creado el archivo ' + blob);
+          resolve(blob);
+        } catch (e) {
+          reject('Error al crear el pdf: ' + e);
+        }
+      });
     },
 
-    async fileWrite(pdfFile: Blob){
-      let folderName = 'Micapp'
-      console.log('pdfFile: ', pdfFile)
+    async fileWrite(pdfFile: Blob) {
+      let folderName = 'Micapp';
+      console.log('pdfFile: ', pdfFile);
       try {
-      let ret = await Filesystem.mkdir({
-        path: folderName,
-        directory: Directory.Documents,
-        recursive: false,
-      });
-      
-      console.log('ret: ' + ret + '\n')
-      
-    } catch (e) {
-      console.error("Unable to make directory", e);
-    }
+        let ret = await Filesystem.mkdir({
+          path: folderName,
+          directory: Directory.Documents,
+          recursive: false,
+        });
+
+        console.log('ret: ' + ret + '\n');
+      } catch (e) {
+        console.error('Unable to make directory', e);
+      }
 
       const fileName = 'Documents/Micapp/file.pdf';
-      if (window.confirm("¿Quieres crear el archivo?"))
-      try{
-        
-        let text = window.prompt("Introduzca texto a escribir")
-        
-        // @ts-ignore
-        // const toBase64 = file => new Promise((resolve, reject) => {
-        // const reader = new FileReader();
-        // reader.readAsDataURL(file);
-        // reader.onload = () => resolve(reader.result);
-        // reader.onerror = reject;
-        // });
+      if (window.confirm('¿Quieres crear el archivo?'))
+        try {
+          let text = window.prompt('Introduzca texto a escribir');
 
-        // async function Test(){
-        //   const file = pdfFile;
-        //   console.log(await toBase64(file));
-        //   return file;
-        // }
+          // @ts-ignore
+          // const toBase64 = file => new Promise((resolve, reject) => {
+          // const reader = new FileReader();
+          // reader.readAsDataURL(file);
+          // reader.onload = () => resolve(reader.result);
+          // reader.onerror = reject;
+          // });
 
-        // let options: WriteFileOptions = {
-        //   path: fileName, 
-        //   directory: Directory.Documents,
-        //   encoding: Encoding.UTF8,
-        //   recursive: true,
-        //   data: await Promise.resolve(Test())
-        // }
+          // async function Test(){
+          //   const file = pdfFile;
+          //   console.log(await toBase64(file));
+          //   return file;
+          // }
 
-        await Filesystem.writeFile(pdfFile);  
+          // let options: WriteFileOptions = {
+          //   path: fileName,
+          //   directory: Directory.Documents,
+          //   encoding: Encoding.UTF8,
+          //   recursive: true,
+          //   data: await Promise.resolve(Test())
+          // }
 
-      } catch (e){
-        console.error("Error on writeFile object" + e)
-      }
+          await Filesystem.writeFile(pdfFile);
+        } catch (e) {
+          console.error('Error on writeFile object' + e);
+        }
     },
-  }
+  },
 });
 </script>
 
