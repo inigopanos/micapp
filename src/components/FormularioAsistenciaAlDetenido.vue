@@ -292,16 +292,18 @@ export default defineComponent({
 
     handleSubmit() {
       let timestamp = this.getTimeAndDate();
-      console.log(timestamp);
 
-      const element = document.getElementById('container');
-
-      if (element){
-        html2pdf.from(element).outputPdf();
-      } else {
-        console.error('Elemento no encontrado en el DOM');
-      }
+      document.addEventListener('DOMContentLoaded', () => {
+          const element = document.getElementById('container');
+        if (element){
+          console.log('No me lo creo.');
+          html2pdf.from(element).outputPdf();
+        } else {
+          console.error('Elemento no encontrado en el DOM');
+        }
+      })
       
+      const element = document.getElementById('container');
       console.log('Elemento, ', element); //object HTMLDivElement
 
       let opt = {
