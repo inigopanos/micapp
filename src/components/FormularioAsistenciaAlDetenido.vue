@@ -381,7 +381,11 @@ export default defineComponent({
 
     FormularioServices.enviarFormulario(pdf, opt.filename);
 
-    fileWrite(pdf);
+    fileWrite(pdf).then(() => {
+      window.confirm('Se ha creado el archivo de forma exitosa');
+    }).catch((error) => {
+      window.confirm('Ha habido un error al crear el archivo ' + error);
+    });
       // ------------------------------------------------------------------------- //
 
 
