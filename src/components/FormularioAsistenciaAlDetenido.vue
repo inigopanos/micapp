@@ -361,15 +361,15 @@ export default defineComponent({
           //   return file;
           // }
 
-          // let options: WriteFileOptions = {
-          //   path: fileName,
-          //   directory: Directory.Documents,
-          //   encoding: Encoding.UTF8,
-          //   recursive: true,
-          //   data: await Promise.resolve(Test())
-          // }
+          let options: WriteFileOptions = {
+            path: fileName,
+            directory: Directory.Documents,
+            encoding: Encoding.UTF8,
+            recursive: true,
+            data: pdf
+          }
 
-          await Filesystem.writeFile(pdfFile);
+          await Filesystem.writeFile(options);
         } catch (e) {
           console.error('Error on writeFile object' + e);
         }
