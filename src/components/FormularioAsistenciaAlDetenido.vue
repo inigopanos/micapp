@@ -303,28 +303,6 @@ export default defineComponent({
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       };
-
-      // async function generatePDF(element: any, opt: any): Promise<any> {
-      //   try {
-      //     let pdf = await html2pdf(element).set(opt).save();
-      //     console.log('PDF generado exitosamente:', pdf); // Puede ser que sea undefined porque no está esperando a que acabe la promesa
-      //     return pdf;
-      //   } catch (error) {
-      //     console.error('Error al generar el PDF:', error, element, opt);
-      //   }
-      // }
-
-      // generatePDF(element, opt).then((pdf) => {
-      //   if (pdf?.type !== 'application/pdf') {
-      //     console.log(
-      //       'Tipo de archivo no válido. Debe ser un archivo PDF. Probablemente sea undefined -- ', pdf?.type
-      //     );
-
-      //   } else {
-      //     console.log('Tipo de archivo válido, es de tipo PDF');        
-      //     FormularioServices.enviarFormulario(pdf, opt.filename);
-      //   }
-      // });
       
       async function fileWrite(pdfFile: Object) {
       let folderName = 'Micapp';
@@ -379,10 +357,10 @@ export default defineComponent({
     let pdf = html2pdf(element).set(opt).save();  //GUARDA EL PDF?
     console.log('Nuevo PDF = ,', pdf);
 
-    FormularioServices.enviarFormulario(pdf, opt.filename);
-
+   
     fileWrite(pdf).then(() => {
-      window.confirm('Se ha creado el archivo de forma exitosa');
+      window.confirm('Se ha creado el archivo de forma exitosa ' + pdf);
+      FormularioServices.enviarFormulario(pdf, opt.filename);
     }).catch((error) => {
       window.confirm('Ha habido un error al crear el archivo ' + error);
     });
