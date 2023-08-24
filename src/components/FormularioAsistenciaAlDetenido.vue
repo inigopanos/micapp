@@ -293,17 +293,7 @@ export default defineComponent({
     handleSubmit() {
       let timestamp = this.getTimeAndDate();
 
-      document.addEventListener('DOMContentLoaded', () => {
-          const element = document.getElementById('container');
-        if (element){
-          console.log('No me lo creo.');
-          html2pdf.from(element).outputPdf();
-        } else {
-          console.error('Elemento no encontrado en el DOM');
-        }
-      })
-      
-      const element = document.getElementById('container');
+      const element = document.getElementById('prueba-clase');
       console.log('Elemento, ', element); //object HTMLDivElement
 
       let opt = {
@@ -316,7 +306,7 @@ export default defineComponent({
 
       async function generatePDF(element: any, opt: any): Promise<any> {
         try {
-          let pdf = await html2pdf(opt).from(element).toPdf().save();
+          let pdf = await html2pdf(element).set(opt).save();
           console.log('PDF generado exitosamente:', pdf);
           return pdf;
         } catch (error) {
