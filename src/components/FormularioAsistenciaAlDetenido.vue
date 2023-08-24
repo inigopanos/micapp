@@ -299,44 +299,89 @@ export default defineComponent({
       let opt = {
         margin: 1,
         filename: `formulario_asistencia_detenido_${timestamp}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'png', quality: 1 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       };
 
-      async function generatePDF(element: any, opt: any): Promise<any> {
-        try {
-          let pdf = await html2pdf(element).set(opt).save();
-          console.log('PDF generado exitosamente:', pdf);
-          return pdf;
-        } catch (error) {
-          console.error('Error al generar el PDF:', error, element, opt);
-        }
+      // async function generatePDF(element: any, opt: any): Promise<any> {
+      //   try {
+      //     let pdf = await html2pdf(element).set(opt).save();
+      //     console.log('PDF generado exitosamente:', pdf); // Puede ser que sea undefined porque no está esperando a que acabe la promesa
+      //     return pdf;
+      //   } catch (error) {
+      //     console.error('Error al generar el PDF:', error, element, opt);
+      //   }
+      // }
+
+      // generatePDF(element, opt).then((pdf) => {
+      //   if (pdf?.type !== 'application/pdf') {
+      //     console.log(
+      //       'Tipo de archivo no válido. Debe ser un archivo PDF. Probablemente sea undefined -- ', pdf?.type
+      //     );
+
+      //   } else {
+      //     console.log('Tipo de archivo válido, es de tipo PDF');        
+      //     FormularioServices.enviarFormulario(pdf, opt.filename);
+      //   }
+      // });
+      
+      async function fileWrite(pdfFile: Object) {
+      let folderName = 'Micapp';
+      console.log('pdfFile: ', pdfFile);
+
+      try {
+        let ret = await Filesystem.mkdir({
+          path: folderName,
+          directory: Directory.Documents,
+          recursive: false,
+        });
+
+        console.log('ret: ' + ret + '\n');
+      } catch (e) {
+        console.error('Unable to make directory', e);
       }
 
-      generatePDF(element, opt).then((pdf) => {
-        if (pdf?.type !== 'application/pdf') {
-          console.log(
-            'Tipo de archivo no válido. Debe ser un archivo PDF. Probablemente sea undefined -- ', pdf?.type
-          );
+      const fileName = 'Documents/Micapp/file.pdf';
+      if (window.confirm('¿Quieres crear el archivo?'))
+        try {
+          // let text = window.prompt('Introduzca texto a escribir');
 
-        } else {
-          console.log('Tipo de archivo válido, es de tipo PDF');        
-          FormularioServices.enviarFormulario(pdf, opt.filename);
+          // @ts-ignore
+          // const toBase64 = file => new Promise((resolve, reject) => {
+          // const reader = new FileReader();
+          // reader.readAsDataURL(file);
+          // reader.onload = () => resolve(reader.result);
+          // reader.onerror = reject;
+          // });
+
+          // async function Test(){
+          //   const file = pdfFile;
+          //   console.log(await toBase64(file));
+          //   return file;
+          // }
+
+          // let options: WriteFileOptions = {
+          //   path: fileName,
+          //   directory: Directory.Documents,
+          //   encoding: Encoding.UTF8,
+          //   recursive: true,
+          //   data: await Promise.resolve(Test())
+          // }
+
+          await Filesystem.writeFile(pdfFile);
+        } catch (e) {
+          console.error('Error on writeFile object' + e);
         }
-      });
+    }
 
-      // let pdf = html2pdf(opt).from(element).save().then();  //GUARDA EL PDF?
-      // console.log('Nuevo PDF = ,', pdf);
 
-      // if (pdf?.type !== 'application/pdf'){
-      //   console.log('Otra vez no es pdf, ', pdf?.type);
-      // } else {
-      //   console.log('¡Eureka!', pdf?.type);
-      //   FormularioServices.enviarFormulario(pdf, opt.filename);
-      // }
-       
+    let pdf = html2pdf(element).set(opt).save();  //GUARDA EL PDF?
+    console.log('Nuevo PDF = ,', pdf);
 
+    FormularioServices.enviarFormulario(pdf, opt.filename);
+
+    fileWrite(pdf);
       // ------------------------------------------------------------------------- //
 
 
