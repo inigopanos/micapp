@@ -357,13 +357,19 @@ export default defineComponent({
     let pdf = html2pdf(element).set(opt).save();  //GUARDA EL PDF?
     console.log('Nuevo PDF = ,', pdf);
 
-   
     fileWrite(pdf).then(() => {
       window.confirm('Se ha creado el archivo de forma exitosa ' + pdf);
       FormularioServices.enviarFormulario(pdf, opt.filename);
     }).catch((error) => {
       window.confirm('Ha habido un error al crear el archivo ' + error);
     });
+
+
+
+
+
+
+
       // ------------------------------------------------------------------------- //
 
 
