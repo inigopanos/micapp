@@ -308,14 +308,35 @@ export default defineComponent({
       let folderName = 'Micapp';
       console.log('pdfFile: ', pdfFile);
 
-      try {
-        let ret = await Filesystem.mkdir({
-          path: folderName,
-          directory: Directory.Documents,
-          recursive: false,
-        });
+      async function verifyDirectory(directory: string): Promise<boolean>{
+        try {
+          const content = await Filesystem.readdir({path: directory});
+          console.log('Existe el directorio ', directory);
+          return true;
+        } catch(error) {
+          console.error('El directorio "${directory}" no existe.');
+          return false;
+        }
+      }
 
-        console.log('ret: ' + ret + '\n');
+      try {
+        verifyDirectory(folderName).then((existe) => {
+          if (!existe){
+            let ret = Filesystem.mkdir({
+            path: folderName,
+            directory: Directory.Documents,
+            recursive: false,
+          });
+          } else {
+            console.log('Ya existe la carpeta "&{folderName}"');
+          }
+        })
+        
+        // let ret = await Filesystem.mkdir({
+        //   path: folderName,
+        //   directory: Directory.Documents,
+        //   recursive: false,
+        // });
       } catch (e) {
         console.error('Unable to make directory', e);
       }
@@ -349,7 +370,7 @@ export default defineComponent({
 
           await Filesystem.writeFile(options);
         } catch (e) {
-          console.error('Error on writeFile object' + e);
+          console.error('Error on writeFile object' + e); // NO DATA
         }
     }
 
@@ -359,6 +380,7 @@ export default defineComponent({
 
     fileWrite(pdf).then(() => {
       window.confirm('Se ha creado el archivo de forma exitosa ' + pdf);
+      console.log('Se envía al post: ', pdf, opt.filename);
       FormularioServices.enviarFormulario(pdf, opt.filename);
     }).catch((error) => {
       window.confirm('Ha habido un error al crear el archivo ' + error);
