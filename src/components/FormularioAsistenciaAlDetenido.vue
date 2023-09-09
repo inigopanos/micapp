@@ -292,75 +292,11 @@ export default defineComponent({
 
     handleSubmit() {
       
-      let pdfFile = this.createPDF();
-
-      this.writeFileInAndroidDirectory(pdfFile);
-
-      // POPUP DE CONFIRMACIÓN ENVÍO DE MENSAJE
-
-      const x = document.getElementById('sent_email');
-
-      if (x) {
-        if (x.style.display === 'none') {
-          x.style.display = 'block';
-        } else {
-          x.style.display = 'none';
-        }
-      }
-    },
-
-    async writeFileInAndroidDirectory(pdfFile: any) {
-      console.log('pdfFile: ', pdfFile);
-
-      async function verifyDirectory(directory: string): Promise<boolean>{
-        try {
-          const content = await Filesystem.readdir({path: directory});
-          console.log('Existe el directorio ', directory);
-          return true;
-        } catch(error) {
-          console.error('El directorio ', directory, ' no existe.');
-          return false;
-        }
-      }
-
-      const fileName = 'Documents/Micapp/file.pdf';
-
-      try {
-        verifyDirectory(fileName).then((existe) => {
-          if (!existe){
-            let ret = Filesystem.mkdir({
-            path: fileName,
-            directory: Directory.Documents,
-            recursive: false,
-          });
-          } else {
-            console.log('Ya existe la carpeta "&{folderName}"');
-          }
-        })
-        
-        // let ret = await Filesystem.mkdir({
-        //   path: folderName,
-        //   directory: Directory.Documents,
-        //   recursive: false,
-        // });
-      } catch (e) {
-        console.error('Unable to make directory', e);
-      }
-
-      if (window.confirm('¿Quieres crear el archivo?'))
-        try {
-          let options: WriteFileOptions = {
-            path: fileName,
-            directory: Directory.Documents,
-            encoding: Encoding.UTF8,
-            recursive: true,
-            data: pdfFile
-          }
-
-          await Filesystem.writeFile(options);
-        } catch (e) {
-          console.error('Error on writeFile object' + e); // NO DATA
-        }
+      var element = document.getElementById('container');
+      let filename = 'test'
+      html2pdf().from(element).toPdf().output('datauristring').then((pdf: string) => {
+        FormularioServices.enviarFormulario(pdf, filename);
+      })
     
     }, 
 
@@ -398,7 +334,7 @@ export default defineComponent({
 
         let opt = {
           margin: 1,
-          filename: 'my-invoice.pdf',
+          filename: 'prueba.pdf',
           image: { type: 'jpeg', quality: 0.95 },
           html2canvas: { scale: 2 },
           jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
