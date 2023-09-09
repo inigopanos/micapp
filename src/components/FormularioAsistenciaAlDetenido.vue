@@ -291,21 +291,25 @@ export default defineComponent({
     },
 
     handleSubmit() {
-      let timestamp = this.getTimeAndDate();
-
-      const element = document.getElementById('prueba-clase');
-      console.log('Elemento, ', element); //object HTMLDivElement
-
-      let opt = {
-        margin: 1,
-        filename: `formulario_asistencia_detenido_${timestamp}.pdf`,
-        image: { type: 'png', quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-      };
       
-      async function fileWrite(pdfFile: Object) {
-      let folderName = 'Micapp';
+      let pdfFile = this.createPDF();
+
+      this.writeFileInAndroidDirectory(pdfFile);
+
+      // POPUP DE CONFIRMACIÓN ENVÍO DE MENSAJE
+
+      const x = document.getElementById('sent_email');
+
+      if (x) {
+        if (x.style.display === 'none') {
+          x.style.display = 'block';
+        } else {
+          x.style.display = 'none';
+        }
+      }
+    },
+
+    async writeFileInAndroidDirectory(pdfFile: any) {
       console.log('pdfFile: ', pdfFile);
 
       async function verifyDirectory(directory: string): Promise<boolean>{
@@ -314,16 +318,18 @@ export default defineComponent({
           console.log('Existe el directorio ', directory);
           return true;
         } catch(error) {
-          console.error('El directorio "${directory}" no existe.');
+          console.error('El directorio ', directory, ' no existe.');
           return false;
         }
       }
 
+      const fileName = 'Documents/Micapp/file.pdf';
+
       try {
-        verifyDirectory(folderName).then((existe) => {
+        verifyDirectory(fileName).then((existe) => {
           if (!existe){
             let ret = Filesystem.mkdir({
-            path: folderName,
+            path: fileName,
             directory: Directory.Documents,
             recursive: false,
           });
@@ -341,72 +347,48 @@ export default defineComponent({
         console.error('Unable to make directory', e);
       }
 
-      const fileName = 'Documents/Micapp/file.pdf';
       if (window.confirm('¿Quieres crear el archivo?'))
         try {
-          // let text = window.prompt('Introduzca texto a escribir');
-
-          // @ts-ignore
-          // const toBase64 = file => new Promise((resolve, reject) => {
-          // const reader = new FileReader();
-          // reader.readAsDataURL(file);
-          // reader.onload = () => resolve(reader.result);
-          // reader.onerror = reject;
-          // });
-
-          // async function Test(){
-          //   const file = pdfFile;
-          //   console.log(await toBase64(file));
-          //   return file;
-          // }
-
           let options: WriteFileOptions = {
             path: fileName,
             directory: Directory.Documents,
             encoding: Encoding.UTF8,
             recursive: true,
-            data: pdf
+            data: pdfFile
           }
 
           await Filesystem.writeFile(options);
         } catch (e) {
           console.error('Error on writeFile object' + e); // NO DATA
         }
-    }
+    
+    }, 
 
+    createAndSavePDF() {
+      let timestamp = this.getTimeAndDate();
 
-    let pdf = html2pdf(element).set(opt).save();  //GUARDA EL PDF?
-    console.log('Nuevo PDF = ,', pdf);
+      const element = document.getElementById('prueba-clase');
+      console.log('Elemento, ', element); //object HTMLDivElement
 
-    fileWrite(pdf).then(() => {
-      window.confirm('Se ha creado el archivo de forma exitosa ' + pdf);
-      console.log('Se envía al post: ', pdf, opt.filename);
-      FormularioServices.enviarFormulario(pdf, opt.filename);
-    }).catch((error) => {
-      window.confirm('Ha habido un error al crear el archivo ' + error);
-    });
+      let opt = {
+        margin: 1,
+        filename: `formulario_asistencia_detenido_${timestamp}.pdf`,
+        image: { type: 'png', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      };
+      
+      // fileWrite(pdf).then(() => {
+      //   window.confirm('Se ha creado el archivo de forma exitosa ' + pdf);
+      //   console.log('Se envía al post: ', pdf, opt.filename);
+      //   FormularioServices.enviarFormulario(pdf, opt.filename);
+      // }).catch((error) => {
+      //   window.confirm('Ha habido un error al crear el archivo ' + error);
+      // });
 
-
-
-
-
-
-
-      // ------------------------------------------------------------------------- //
-
-
-
-      //this.createPDF();
-
-      const x = document.getElementById('sent_email');
-
-      if (x) {
-        if (x.style.display === 'none') {
-          x.style.display = 'block';
-        } else {
-          x.style.display = 'none';
-        }
-      }
+      let pdf = html2pdf(element).set(opt).save();  //GUARDA EL PDF?
+      console.log('Nuevo PDF = ,', pdf);
+      return pdf;
     },
 
     createPDF() {
@@ -455,7 +437,9 @@ export default defineComponent({
           console.log('Antes de this.fileWrite(pdfFile) el blob es', blob); // No se
           this.fileWrite(blob);
           console.log('Se ha creado el archivo ' + blob);
+          
           resolve(blob);
+          return blob;
         } catch (e) {
           reject('Error al crear el pdf: ' + e);
         }
