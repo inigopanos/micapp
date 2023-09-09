@@ -9,5 +9,9 @@ const FORMULARIO_API = 'https://micapp-backend.herokuapp.com/formulario'; // Cam
 
 export function enviarFormulario(formulario_pdf: any, filename: string) {
   console.log('Pre post formulario', formulario_pdf, filename); // Formulario pdf is undefined...
-  return axios.post(`${FORMULARIO_API}`, { data: formulario_pdf, filename });
+  return axios.post(`${FORMULARIO_API}`, { data: formulario_pdf, filename }).then((response) => {
+    console.log('Éxito al postear al back: ', response);
+  }).catch((error) => {
+    console.log('Error al postear al back:', error);
+  });
 }
