@@ -292,14 +292,24 @@ export default defineComponent({
 
     handleSubmit() {
       
+      let timestamp = this.getTimeAndDate();
+      let opt = {
+        margin: 1,
+        filename: `formulario_asistencia_detenido_${timestamp}.pdf`,
+        image: { type: 'png', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      };
+
       let element = document.getElementById('container');
       
       html2pdf().from(element).toPdf().output('datauristring').then((pdf: string) => {
-        const separated_data = pdf.split(",");
+        const split_pdf = pdf.split(",");
+        let data_uri_string = split_pdf[1];
         console.log(pdf);
-        console.log('pdf:', separated_data[1]);
+        console.log('pdf:', data_uri_string);
         console.warn('TESTEO PRUEBA PRUEBA PRUEBA TESTEO');
-        FormularioServices.enviarFormulario(pdf, 'test.pdf');
+        FormularioServices.enviarFormulario(data_uri_string, opt.filename);
       })
     }, 
 
