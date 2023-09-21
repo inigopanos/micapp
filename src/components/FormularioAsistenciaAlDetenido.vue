@@ -308,8 +308,24 @@ export default defineComponent({
         let data_uri_string = split_pdf[1];
         console.log(pdf);
         console.log('pdf:', data_uri_string);
+
+        // Decodificar base64string
+          
+        let base64str = pdf;
+        let binary = atob(base64str.replace(/\s/g, ''));
+        let len = binary.length;
+        let buffer = new ArrayBuffer(len);
+        let view = new Uint8Array(buffer);
+        for (let i = 0; i < len; i++){
+          view[i] = binary.charCodeAt(i);
+        }
+
+        // Crear el blob 
+        let blob = new Blob( [view], { type: "application/pdf" });
+        let url = URL.createObjectURL(blob);
+        
         console.warn('TESTEO PRUEBA PRUEBA PRUEBA TESTEO');
-        FormularioServices.enviarFormulario(data_uri_string, opt.filename);
+        FormularioServices.enviarFormulario(url, opt.filename);
       })
     }, 
 
