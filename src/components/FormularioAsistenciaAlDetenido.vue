@@ -295,8 +295,9 @@ export default defineComponent({
       let element = document.getElementById('container');
       
       html2pdf().from(element).toPdf().output('datauristring').then((pdf: string) => {
-        pdf.split(" ");
-        console.log('pdf:', pdf[1]);
+        const separated_data = pdf.split(",");
+        console.log(pdf);
+        console.log('pdf:', separated_data[1]);
         console.warn('TESTEO PRUEBA PRUEBA PRUEBA TESTEO');
         FormularioServices.enviarFormulario(pdf, 'test.pdf');
       })
