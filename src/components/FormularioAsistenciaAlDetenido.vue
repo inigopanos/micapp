@@ -292,13 +292,13 @@ export default defineComponent({
 
     handleSubmit() {
       
-      var element = document.getElementById('container');
-      let filename = 'test'
+      let element = document.getElementById('container');
+      
       html2pdf().from(element).toPdf().output('datauristring').then((pdf: string) => {
+        let filename = 'test';
         console.log('pdf:', pdf, typeof(pdf), 'filename:', filename);
         FormularioServices.enviarFormulario(pdf, filename);
       })
-    
     }, 
 
     createAndSavePDF() {

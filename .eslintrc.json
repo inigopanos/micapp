@@ -16,7 +16,8 @@
     "no-debugger": "off",
     "vue/no-deprecated-slot-attribute": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "vue/no-unused-components": "off"
+    "vue/no-unused-components": "off",
+    "semi": [2, "always"]
   },
   "overrides": [
     {
