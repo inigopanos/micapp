@@ -35,7 +35,7 @@ export default defineComponent({
       ellipse, 
       square, 
       triangle,
-    }
+    };
   }
 });
 </script>
