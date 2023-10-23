@@ -312,16 +312,22 @@ export default defineComponent({
         // Decodificar base64string
           
         let base64str = pdf;
-        let binary = atob(base64str.replace(/\s/g, ''));
+        console.log('base64str: ', base64str);
+        let binary = atob(base64str.replace(/\s/g, '')); // Algo de compatibilidad para IE
+        console.log('binary: ', binary);
         let len = binary.length;
+        console.log('len: ', len);
         let buffer = new ArrayBuffer(len);
+        console.log('buffer: ', buffer);
         let view = new Uint8Array(buffer);
+        console.log('view: ', view);
         for (let i = 0; i < len; i++){
           view[i] = binary.charCodeAt(i);
         }
 
         // Crear el blob 
         let blob = new Blob( [view], { type: "application/pdf" });
+        console.log('Blob:', blob);
         let url = URL.createObjectURL(blob);
         
         console.warn('TESTEO PRUEBA PRUEBA PRUEBA TESTEO');
